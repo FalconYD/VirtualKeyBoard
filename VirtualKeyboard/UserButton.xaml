@@ -1,0 +1,37 @@
+﻿<Button x:Class="UserInterface.UserButton"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:local="clr-namespace:UserInterface"
+             mc:Ignorable="d" Template="{DynamicResource ButtonTemplate}" Content="Button" FontSize="20" FontStretch="Expanded" Background="#FFF7F7F7" BorderBrush="Black" Padding="0">
+    <Button.Resources>
+        <ControlTemplate x:Key="ButtonTemplate" TargetType="{x:Type Button}">
+            <Border x:Name="border" CornerRadius="{Binding CornerRadius, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType=Button}}" BorderBrush="{TemplateBinding BorderBrush}" BorderThickness="{TemplateBinding BorderThickness}" Background="{TemplateBinding Background}" SnapsToDevicePixels="True">
+                <ContentPresenter x:Name="contentPresenter" ContentTemplate="{TemplateBinding ContentTemplate}" Content="{TemplateBinding Content}" ContentStringFormat="{TemplateBinding ContentStringFormat}" Focusable="False" HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}" Margin="{TemplateBinding Padding}" RecognizesAccessKey="True" SnapsToDevicePixels="{TemplateBinding SnapsToDevicePixels}" VerticalAlignment="{TemplateBinding VerticalContentAlignment}"/>
+            </Border>
+            <ControlTemplate.Triggers>
+                <Trigger Property="IsDefaulted" Value="True">
+                    <Setter Property="BorderBrush" TargetName="border" Value="{DynamicResource {x:Static SystemColors.HighlightBrushKey}}"/>
+                </Trigger>
+                <Trigger Property="IsMouseOver" Value="True">
+                    <Setter Property="Background" TargetName="border"  Value="{Binding MouseOverBackgroundBrush, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType=Button}, TargetNullValue=#FFC4E1FF}"/>
+                    <Setter Property="BorderBrush" TargetName="border" Value="{Binding MouseOverBorderBrush    , RelativeSource={RelativeSource Mode=FindAncestor, AncestorType=Button}, TargetNullValue=#FF000000}"/>
+                </Trigger>
+                <Trigger Property="IsPressed" Value="True">
+                    <Setter Property="Background" TargetName="border" Value="{Binding PressedBackgroundBrush, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType=Button}, TargetNullValue=#FF42A2E7}"/>
+                    <Setter Property="BorderBrush" TargetName="border" Value="{Binding PressedBorderBrush, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType=Button}, TargetNullValue=#FF000000}"/>
+                </Trigger>
+                <Trigger Property="ToggleButton.IsChecked" Value="True">
+                    <Setter Property="Background" TargetName="border" Value="#FF42A2E7"/>
+                    <Setter Property="BorderBrush" TargetName="border" Value="#FF000000"/>
+                </Trigger>
+                <Trigger Property="IsEnabled" Value="False">
+                    <Setter Property="Background" TargetName="border" Value="#FFE7E7E7"/>
+                    <Setter Property="BorderBrush" TargetName="border" Value="#FF000000"/>
+                    <Setter Property="TextElement.Foreground" TargetName="contentPresenter" Value="#FF838383"/>
+                </Trigger>
+            </ControlTemplate.Triggers>
+        </ControlTemplate>
+    </Button.Resources>
+</Button>
