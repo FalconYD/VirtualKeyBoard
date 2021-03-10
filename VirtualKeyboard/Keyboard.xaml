@@ -20,16 +20,22 @@
             </Style>
         </Grid.Resources>
         <Grid.RowDefinitions>
-            <RowDefinition Height="30"/>
+            <RowDefinition Height="40"/>
             <RowDefinition/>
         </Grid.RowDefinitions>
         <Grid>
             <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="90"/>
                 <ColumnDefinition Width="1*"/>
                 <ColumnDefinition Width="30"/>
             </Grid.ColumnDefinitions>
-            <Label Content="WPF Virtual Keyboard" PreviewMouseDown="Label_PreviewMouseDown"/>
-            <UserInterface:UserButton x:Name="bn_Close" Grid.Column="1" Content="X" FontSize="14" Margin="0" HorizontalAlignment="Left" Width="30" Click="bn_Close_Click"/>
+
+            <UniformGrid Rows="2">
+                <CheckBox Name="cb_Topmost" Content="TopMost" VerticalAlignment="Center" Click="cb_Topmost_Click"/>
+                <CheckBox Name="cb_Hook"    Content="Hooking" VerticalAlignment="Center" Click="cb_Hooking_Click"/>
+            </UniformGrid>
+            <Label    Grid.Column="1" Content="WPF Virtual Keyboard" PreviewMouseDown="Label_PreviewMouseDown"/>
+            <UserInterface:UserButton x:Name="bn_Close" Grid.Column="2" Content="X" FontSize="14" Margin="0" HorizontalAlignment="Left" Width="30" Click="bn_Close_Click"/>
         </Grid>
         
         <Grid Grid.Row="1">
@@ -62,19 +68,19 @@
                     <ColumnDefinition Width="2*"/>
                     <ColumnDefinition Width="2*"/>
                 </Grid.ColumnDefinitions>
-                <UserInterface:UserButton Grid.Column="0"   Content="ESC"   CommandParameter="ESC"   Click="KeyDown_Ascii"/>
-                <UserInterface:UserButton Grid.Column="2"   Content="F1"    CommandParameter="F1"    Click="KeyDown_Ascii"/>
-                <UserInterface:UserButton Grid.Column="3"   Content="F2"    CommandParameter="F2"    Click="KeyDown_Ascii"/>
-                <UserInterface:UserButton Grid.Column="4"   Content="F3"    CommandParameter="F3"    Click="KeyDown_Ascii"/>
-                <UserInterface:UserButton Grid.Column="5"   Content="F4"    CommandParameter="F4"    Click="KeyDown_Ascii"/>
-                <UserInterface:UserButton Grid.Column="7"   Content="F5"    CommandParameter="F5"    Click="KeyDown_Ascii"/>
-                <UserInterface:UserButton Grid.Column="8"   Content="F6"    CommandParameter="F6"    Click="KeyDown_Ascii"/>
-                <UserInterface:UserButton Grid.Column="9"   Content="F7"    CommandParameter="F7"    Click="KeyDown_Ascii"/>
-                <UserInterface:UserButton Grid.Column="10"  Content="F8"    CommandParameter="F8"    Click="KeyDown_Ascii"/>
-                <UserInterface:UserButton Grid.Column="12"  Content="F9"    CommandParameter="F9"    Click="KeyDown_Ascii"/>
-                <UserInterface:UserButton Grid.Column="13"  Content="F10"   CommandParameter="F10"   Click="KeyDown_Ascii"/>
-                <UserInterface:UserButton Grid.Column="14"  Content="F11"   CommandParameter="F11"   Click="KeyDown_Ascii"/>
-                <UserInterface:UserButton Grid.Column="15"  Content="F12"   CommandParameter="F12"   Click="KeyDown_Ascii"/>
+                <UserInterface:UserButton Grid.Column="0"   Content="ESC"   CommandParameter="0x1B"   Click="KeyDown_Ascii" Loaded="bn_Loaded"/>
+                <UserInterface:UserButton Grid.Column="2"   Content="F1"    CommandParameter="0x70"    Click="KeyDown_Ascii" Loaded="bn_Loaded"/>
+                <UserInterface:UserButton Grid.Column="3"   Content="F2"    CommandParameter="0x71"    Click="KeyDown_Ascii" Loaded="bn_Loaded"/>
+                <UserInterface:UserButton Grid.Column="4"   Content="F3"    CommandParameter="0x72"    Click="KeyDown_Ascii" Loaded="bn_Loaded"/>
+                <UserInterface:UserButton Grid.Column="5"   Content="F4"    CommandParameter="0x73"    Click="KeyDown_Ascii" Loaded="bn_Loaded"/>
+                <UserInterface:UserButton Grid.Column="7"   Content="F5"    CommandParameter="0x74"    Click="KeyDown_Ascii" Loaded="bn_Loaded"/>
+                <UserInterface:UserButton Grid.Column="8"   Content="F6"    CommandParameter="0x75"    Click="KeyDown_Ascii" Loaded="bn_Loaded"/>
+                <UserInterface:UserButton Grid.Column="9"   Content="F7"    CommandParameter="0x76"    Click="KeyDown_Ascii" Loaded="bn_Loaded"/>
+                <UserInterface:UserButton Grid.Column="10"  Content="F8"    CommandParameter="0x77"    Click="KeyDown_Ascii" Loaded="bn_Loaded"/>
+                <UserInterface:UserButton Grid.Column="12"  Content="F9"    CommandParameter="0x78"    Click="KeyDown_Ascii" Loaded="bn_Loaded"/>
+                <UserInterface:UserButton Grid.Column="13"  Content="F10"   CommandParameter="0x79"   Click="KeyDown_Ascii" Loaded="bn_Loaded"/>
+                <UserInterface:UserButton Grid.Column="14"  Content="F11"   CommandParameter="0x7a"   Click="KeyDown_Ascii" Loaded="bn_Loaded"/>
+                <UserInterface:UserButton Grid.Column="15"  Content="F12"   CommandParameter="0x7b"   Click="KeyDown_Ascii" Loaded="bn_Loaded"/>
             </Grid>
             <UniformGrid Grid.Row="2" Columns="1" Rows="5">
                 <Grid>
@@ -94,20 +100,20 @@
                         <ColumnDefinition Width="1*"/>
                         <ColumnDefinition Width="2*"/>
                     </Grid.ColumnDefinitions>
-                    <UserInterface:UserButton Grid.Column="0"  Content="`"      CommandParameter="`"        Click="KeyDown_Ascii"/>
-                    <UserInterface:UserButton Grid.Column="1"  Content="1"      CommandParameter="1"         Click="KeyDown_Ascii"/>
-                    <UserInterface:UserButton Grid.Column="2"  Content="2"      CommandParameter="2"      Click="KeyDown_Ascii"/>
-                    <UserInterface:UserButton Grid.Column="3"  Content="3"      CommandParameter="3"      Click="KeyDown_Ascii"/>
-                    <UserInterface:UserButton Grid.Column="4"  Content="4"      CommandParameter="4"      Click="KeyDown_Ascii"/>
-                    <UserInterface:UserButton Grid.Column="5"  Content="5"      CommandParameter="5"      Click="KeyDown_Ascii"/>
-                    <UserInterface:UserButton Grid.Column="6"  Content="6"      CommandParameter="6"      Click="KeyDown_Ascii"/>
-                    <UserInterface:UserButton Grid.Column="7"  Content="7"      CommandParameter="7"      Click="KeyDown_Ascii"/>
-                    <UserInterface:UserButton Grid.Column="8"  Content="8"      CommandParameter="8"      Click="KeyDown_Ascii"/>
-                    <UserInterface:UserButton Grid.Column="9"  Content="9"      CommandParameter="9"      Click="KeyDown_Ascii"/>
-                    <UserInterface:UserButton Grid.Column="10" Content="0"      CommandParameter="0"      Click="KeyDown_Ascii"/>
-                    <UserInterface:UserButton Grid.Column="11" Content="-"      CommandParameter="-"      Click="KeyDown_Ascii"/>
-                    <UserInterface:UserButton Grid.Column="12" Content="="      CommandParameter="="      Click="KeyDown_Ascii"/>
-                    <UserInterface:UserButton Grid.Column="13" Content="←"      CommandParameter="Back"   Click="KeyDown_Ascii"/>
+                    <UserInterface:UserButton Grid.Column="0"  Content="`"      CommandParameter="0xC0"      Click="KeyDown_Ascii"  Loaded="bn_Loaded"/>
+                    <UserInterface:UserButton Grid.Column="1"  Content="1"      CommandParameter="0x31"      Click="KeyDown_Ascii"  Loaded="bn_Loaded"/>
+                    <UserInterface:UserButton Grid.Column="2"  Content="2"      CommandParameter="0x32"      Click="KeyDown_Ascii"  Loaded="bn_Loaded"/>
+                    <UserInterface:UserButton Grid.Column="3"  Content="3"      CommandParameter="0x33"      Click="KeyDown_Ascii"  Loaded="bn_Loaded"/>
+                    <UserInterface:UserButton Grid.Column="4"  Content="4"      CommandParameter="0x34"      Click="KeyDown_Ascii"  Loaded="bn_Loaded"/>
+                    <UserInterface:UserButton Grid.Column="5"  Content="5"      CommandParameter="0x35"      Click="KeyDown_Ascii"  Loaded="bn_Loaded"/>
+                    <UserInterface:UserButton Grid.Column="6"  Content="6"      CommandParameter="0x36"      Click="KeyDown_Ascii"  Loaded="bn_Loaded"/>
+                    <UserInterface:UserButton Grid.Column="7"  Content="7"      CommandParameter="0x37"      Click="KeyDown_Ascii"  Loaded="bn_Loaded"/>
+                    <UserInterface:UserButton Grid.Column="8"  Content="8"      CommandParameter="0x38"      Click="KeyDown_Ascii"  Loaded="bn_Loaded"/>
+                    <UserInterface:UserButton Grid.Column="9"  Content="9"      CommandParameter="0x39"      Click="KeyDown_Ascii"  Loaded="bn_Loaded"/>
+                    <UserInterface:UserButton Grid.Column="10" Content="0"      CommandParameter="0x30"      Click="KeyDown_Ascii"  Loaded="bn_Loaded"/>
+                    <UserInterface:UserButton Grid.Column="11" Content="-"      CommandParameter="0xBD"      Click="KeyDown_Ascii"  Loaded="bn_Loaded"/>
+                    <UserInterface:UserButton Grid.Column="12" Content="="      CommandParameter="0xBB"      Click="KeyDown_Ascii"  Loaded="bn_Loaded"/>
+                    <UserInterface:UserButton Grid.Column="13" Content="←"      CommandParameter="0x08"   Click="KeyDown_Ascii"  Loaded="bn_Loaded"/>
                 </Grid>
                 <Grid>
                     <Grid.ColumnDefinitions>
@@ -126,20 +132,20 @@
                         <ColumnDefinition Width="1*"/>
                         <ColumnDefinition Width="1.5*"/>
                     </Grid.ColumnDefinitions>
-                    <UserInterface:UserButton Grid.Column="0"  Content="Tab"  CommandParameter="Tab"     Click="KeyDown_Ascii"/>
-                    <UserInterface:UserButton Grid.Column="1"  Content="Q"    CommandParameter="Q"       Click="KeyDown_Ascii"/>
-                    <UserInterface:UserButton Grid.Column="2"  Content="W"    CommandParameter="W"       Click="KeyDown_Ascii"/>
-                    <UserInterface:UserButton Grid.Column="3"  Content="E"    CommandParameter="E"       Click="KeyDown_Ascii"/>
-                    <UserInterface:UserButton Grid.Column="4"  Content="R"    CommandParameter="R"       Click="KeyDown_Ascii"/>
-                    <UserInterface:UserButton Grid.Column="5"  Content="T"    CommandParameter="T"       Click="KeyDown_Ascii"/>
-                    <UserInterface:UserButton Grid.Column="6"  Content="Y"    CommandParameter="Y"       Click="KeyDown_Ascii"/>
-                    <UserInterface:UserButton Grid.Column="7"  Content="U"    CommandParameter="U"       Click="KeyDown_Ascii"/>
-                    <UserInterface:UserButton Grid.Column="8"  Content="I"    CommandParameter="I"       Click="KeyDown_Ascii"/>
-                    <UserInterface:UserButton Grid.Column="9"  Content="O"    CommandParameter="O"       Click="KeyDown_Ascii"/>
-                    <UserInterface:UserButton Grid.Column="10" Content="P"    CommandParameter="P"       Click="KeyDown_Ascii"/>
-                    <UserInterface:UserButton Grid.Column="11" Content="["    CommandParameter="["       Click="KeyDown_Ascii"/>
-                    <UserInterface:UserButton Grid.Column="12" Content="]"    CommandParameter="]"       Click="KeyDown_Ascii"/>
-                    <UserInterface:UserButton Grid.Column="13" Content="\"    CommandParameter="\"       Click="KeyDown_Ascii"/>
+                    <UserInterface:UserButton Grid.Column="0"  Content="Tab"  CommandParameter="0x09"     Click="KeyDown_Ascii" Loaded="bn_Loaded"/>
+                    <UserInterface:UserButton Grid.Column="1"  Content="Q"    CommandParameter="0x51"       Click="KeyDown_Ascii" Loaded="bn_Loaded"/>
+                    <UserInterface:UserButton Grid.Column="2"  Content="W"    CommandParameter="0x57"       Click="KeyDown_Ascii" Loaded="bn_Loaded"/>
+                    <UserInterface:UserButton Grid.Column="3"  Content="E"    CommandParameter="0x45"       Click="KeyDown_Ascii" Loaded="bn_Loaded"/>
+                    <UserInterface:UserButton Grid.Column="4"  Content="R"    CommandParameter="0x52"       Click="KeyDown_Ascii" Loaded="bn_Loaded"/>
+                    <UserInterface:UserButton Grid.Column="5"  Content="T"    CommandParameter="0x54"       Click="KeyDown_Ascii" Loaded="bn_Loaded"/>
+                    <UserInterface:UserButton Grid.Column="6"  Content="Y"    CommandParameter="0x59"       Click="KeyDown_Ascii" Loaded="bn_Loaded"/>
+                    <UserInterface:UserButton Grid.Column="7"  Content="U"    CommandParameter="0x55"       Click="KeyDown_Ascii" Loaded="bn_Loaded"/>
+                    <UserInterface:UserButton Grid.Column="8"  Content="I"    CommandParameter="0x49"       Click="KeyDown_Ascii" Loaded="bn_Loaded"/>
+                    <UserInterface:UserButton Grid.Column="9"  Content="O"    CommandParameter="0x4F"       Click="KeyDown_Ascii" Loaded="bn_Loaded"/>
+                    <UserInterface:UserButton Grid.Column="10" Content="P"    CommandParameter="0x50"       Click="KeyDown_Ascii" Loaded="bn_Loaded"/>
+                    <UserInterface:UserButton Grid.Column="11" Content="["    CommandParameter="0xDB"       Click="KeyDown_Ascii" Loaded="bn_Loaded"/>
+                    <UserInterface:UserButton Grid.Column="12" Content="]"    CommandParameter="0xDD"       Click="KeyDown_Ascii" Loaded="bn_Loaded"/>
+                    <UserInterface:UserButton Grid.Column="13" Content="\"    CommandParameter="0xDC"       Click="KeyDown_Ascii" Loaded="bn_Loaded"/>
                 </Grid>
                 <Grid >
                     <Grid.ColumnDefinitions>
@@ -157,19 +163,19 @@
                         <ColumnDefinition Width="1*"/>
                         <ColumnDefinition Width="1.8*"/>
                     </Grid.ColumnDefinitions>
-                    <UserInterface:UserButton Grid.Column="0"  Content="CapsLock" CommandParameter="CapsLock" Click="KeyDown_Ascii"/>
-                    <UserInterface:UserButton Grid.Column="1"  Content="A"        CommandParameter="A"        Click="KeyDown_Ascii"/>
-                    <UserInterface:UserButton Grid.Column="2"  Content="S"        CommandParameter="S"        Click="KeyDown_Ascii"/>
-                    <UserInterface:UserButton Grid.Column="3"  Content="D"        CommandParameter="D"        Click="KeyDown_Ascii"/>
-                    <UserInterface:UserButton Grid.Column="4"  Content="F"        CommandParameter="F"        Click="KeyDown_Ascii"/>
-                    <UserInterface:UserButton Grid.Column="5"  Content="G"        CommandParameter="G"        Click="KeyDown_Ascii"/>
-                    <UserInterface:UserButton Grid.Column="6"  Content="H"        CommandParameter="H"        Click="KeyDown_Ascii"/>
-                    <UserInterface:UserButton Grid.Column="7"  Content="J"        CommandParameter="J"        Click="KeyDown_Ascii"/>
-                    <UserInterface:UserButton Grid.Column="8"  Content="K"        CommandParameter="K"        Click="KeyDown_Ascii"/>
-                    <UserInterface:UserButton Grid.Column="9"  Content="L"        CommandParameter="L"        Click="KeyDown_Ascii"/>
-                    <UserInterface:UserButton Grid.Column="10" Content=";"        CommandParameter=";"        Click="KeyDown_Ascii"/>
-                    <UserInterface:UserButton Grid.Column="11" Content="'"        CommandParameter="'"        Click="KeyDown_Ascii"/>
-                    <UserInterface:UserButton Grid.Column="12" Content="Enter"    CommandParameter="Enter"    Click="KeyDown_Ascii"/>
+                    <UserInterface:UserButton Grid.Column="0"  Content="CapsLock" CommandParameter="0x14"        Click="KeyDown_Ascii" Loaded="bn_Loaded"/>
+                    <UserInterface:UserButton Grid.Column="1"  Content="A"        CommandParameter="0x41"        Click="KeyDown_Ascii" Loaded="bn_Loaded"/>
+                    <UserInterface:UserButton Grid.Column="2"  Content="S"        CommandParameter="0x53"        Click="KeyDown_Ascii" Loaded="bn_Loaded"/>
+                    <UserInterface:UserButton Grid.Column="3"  Content="D"        CommandParameter="0x44"        Click="KeyDown_Ascii" Loaded="bn_Loaded"/>
+                    <UserInterface:UserButton Grid.Column="4"  Content="F"        CommandParameter="0x46"        Click="KeyDown_Ascii" Loaded="bn_Loaded"/>
+                    <UserInterface:UserButton Grid.Column="5"  Content="G"        CommandParameter="0x47"        Click="KeyDown_Ascii" Loaded="bn_Loaded"/>
+                    <UserInterface:UserButton Grid.Column="6"  Content="H"        CommandParameter="0x48"        Click="KeyDown_Ascii" Loaded="bn_Loaded"/>
+                    <UserInterface:UserButton Grid.Column="7"  Content="J"        CommandParameter="0x4A"        Click="KeyDown_Ascii" Loaded="bn_Loaded"/>
+                    <UserInterface:UserButton Grid.Column="8"  Content="K"        CommandParameter="0x4B"        Click="KeyDown_Ascii" Loaded="bn_Loaded"/>
+                    <UserInterface:UserButton Grid.Column="9"  Content="L"        CommandParameter="0x4C"        Click="KeyDown_Ascii" Loaded="bn_Loaded"/>
+                    <UserInterface:UserButton Grid.Column="10" Content=";"        CommandParameter="0xBA"        Click="KeyDown_Ascii" Loaded="bn_Loaded"/>
+                    <UserInterface:UserButton Grid.Column="11" Content="'"        CommandParameter="0xDE"        Click="KeyDown_Ascii" Loaded="bn_Loaded"/>
+                    <UserInterface:UserButton Grid.Column="12" Content="Enter"    CommandParameter="0x0D"        Click="KeyDown_Ascii" Loaded="bn_Loaded"/>
                 </Grid>
                 <Grid>
                     <Grid.ColumnDefinitions>
@@ -186,18 +192,18 @@
                         <ColumnDefinition Width="1*"/>
                         <ColumnDefinition Width="2.3*"/>
                     </Grid.ColumnDefinitions>
-                    <UserInterface:UserButton Grid.Column="0"  Content="Shift" CommandParameter="Shift"    Click="KeyDown_Ascii"/>
-                    <UserInterface:UserButton Grid.Column="1"  Content="Z"     CommandParameter="Z"        Click="KeyDown_Ascii"/>
-                    <UserInterface:UserButton Grid.Column="2"  Content="X"     CommandParameter="X"        Click="KeyDown_Ascii"/>
-                    <UserInterface:UserButton Grid.Column="3"  Content="C"     CommandParameter="C"        Click="KeyDown_Ascii"/>
-                    <UserInterface:UserButton Grid.Column="4"  Content="V"     CommandParameter="V"        Click="KeyDown_Ascii"/>
-                    <UserInterface:UserButton Grid.Column="5"  Content="B"     CommandParameter="B"        Click="KeyDown_Ascii"/>
-                    <UserInterface:UserButton Grid.Column="6"  Content="N"     CommandParameter="N"        Click="KeyDown_Ascii"/>
-                    <UserInterface:UserButton Grid.Column="7"  Content="M"     CommandParameter="M"        Click="KeyDown_Ascii"/>
-                    <UserInterface:UserButton Grid.Column="8"  Content=","     CommandParameter=","        Click="KeyDown_Ascii"/>
-                    <UserInterface:UserButton Grid.Column="9"  Content="."     CommandParameter="."        Click="KeyDown_Ascii"/>
-                    <UserInterface:UserButton Grid.Column="10" Content="/"     CommandParameter="/"        Click="KeyDown_Ascii"/>
-                    <UserInterface:UserButton Grid.Column="11" Content="Shift" CommandParameter="Shift"    Click="KeyDown_Ascii"/>
+                    <UserInterface:UserButton Grid.Column="0"  Content="Shift" CommandParameter="0xA0"    Click="KeyDown_Ascii" Loaded="bn_Loaded"/>
+                    <UserInterface:UserButton Grid.Column="1"  Content="Z"     CommandParameter="0x5A"        Click="KeyDown_Ascii" Loaded="bn_Loaded"/>
+                    <UserInterface:UserButton Grid.Column="2"  Content="X"     CommandParameter="0x58"        Click="KeyDown_Ascii" Loaded="bn_Loaded"/>
+                    <UserInterface:UserButton Grid.Column="3"  Content="C"     CommandParameter="0x43"        Click="KeyDown_Ascii" Loaded="bn_Loaded"/>
+                    <UserInterface:UserButton Grid.Column="4"  Content="V"     CommandParameter="0x56"        Click="KeyDown_Ascii" Loaded="bn_Loaded"/>
+                    <UserInterface:UserButton Grid.Column="5"  Content="B"     CommandParameter="0x42"        Click="KeyDown_Ascii" Loaded="bn_Loaded"/>
+                    <UserInterface:UserButton Grid.Column="6"  Content="N"     CommandParameter="0x4E"        Click="KeyDown_Ascii" Loaded="bn_Loaded"/>
+                    <UserInterface:UserButton Grid.Column="7"  Content="M"     CommandParameter="0x4D"        Click="KeyDown_Ascii" Loaded="bn_Loaded"/>
+                    <UserInterface:UserButton Grid.Column="8"  Content=","     CommandParameter="0xBC"        Click="KeyDown_Ascii" Loaded="bn_Loaded"/>
+                    <UserInterface:UserButton Grid.Column="9"  Content="."     CommandParameter="0xBE"        Click="KeyDown_Ascii" Loaded="bn_Loaded"/>
+                    <UserInterface:UserButton Grid.Column="10" Content="/"     CommandParameter="0xBF"        Click="KeyDown_Ascii" Loaded="bn_Loaded"/>
+                    <UserInterface:UserButton Grid.Column="11" Content="Shift" CommandParameter="0xA1"    Click="KeyDown_Ascii" Loaded="bn_Loaded"/>
                 </Grid>
                 <Grid>
                     <Grid.ColumnDefinitions>
@@ -211,39 +217,45 @@
                         <ColumnDefinition Width="1*"/>
                         <ColumnDefinition Width="1.5*"/>
                     </Grid.ColumnDefinitions>
-                    <UserInterface:UserButton Grid.Column="0" Content="Ctrl"   CommandParameter="Ctrl"    Click="KeyDown_Ascii"/>
-                    <UserInterface:UserButton Grid.Column="1" Content="Win"    CommandParameter="Win"     Click="KeyDown_Ascii"/>
-                    <UserInterface:UserButton Grid.Column="2" Content="Alt"    CommandParameter="Alt"     Click="KeyDown_Ascii"/>
-                    <UserInterface:UserButton Grid.Column="3" Content="Space"  CommandParameter="Space"   Click="KeyDown_Ascii"/>
-                    <UserInterface:UserButton Grid.Column="4" Content="한/영"    CommandParameter="IME"     Click="KeyDown_Ascii"/>
-                    <UserInterface:UserButton Grid.Column="5" Content="Alt"    CommandParameter="Alt"     Click="KeyDown_Ascii"/>
-                    <UserInterface:UserButton Grid.Column="6" Content="Win"    CommandParameter="Win"     Click="KeyDown_Ascii" Grid.ColumnSpan="2"/>
+                    <UserInterface:UserButton Grid.Column="0" Content="Ctrl"   CommandParameter="0xA2"    Click="KeyDown_Ascii" Loaded="bn_Loaded"/>
+                    <UserInterface:UserButton Grid.Column="1" Content="Win"    CommandParameter="0x5B"     Click="KeyDown_Ascii" Loaded="bn_Loaded"/>
+                    <UserInterface:UserButton Grid.Column="2" Content="Alt"    CommandParameter="0xA4"     Click="KeyDown_Ascii" Loaded="bn_Loaded"/>
+                    <UserInterface:UserButton Grid.Column="3" Content="Space"  CommandParameter="0x20"   Click="KeyDown_Ascii" Loaded="bn_Loaded"/>
+                    <UserInterface:UserButton Grid.Column="4" Content="한/영"    CommandParameter="0xE5"     Click="KeyDown_Ascii" Loaded="bn_Loaded"/>
+                    <UserInterface:UserButton Grid.Column="5" Content="Alt"    CommandParameter="0x15"     Click="KeyDown_Ascii" Loaded="bn_Loaded"/>
+                    <UserInterface:UserButton Grid.Column="6" Content="Win"    CommandParameter="0x5C"     Click="KeyDown_Ascii" Loaded="bn_Loaded" Grid.ColumnSpan="2"/>
                     <!--<UserInterface:UserButton Grid.Column="7" Content="Menu"   CommandParameter="Menu"    Click="KeyDown_Ascii"/>-->
-                    <UserInterface:UserButton Grid.Column="8" Content="Ctrl"   CommandParameter="Ctrl"    Click="KeyDown_Ascii"/>
+                    <UserInterface:UserButton Grid.Column="8" Content="Ctrl"   CommandParameter="0x19"    Click="KeyDown_Ascii" Loaded="bn_Loaded"/>
                 </Grid>
             </UniformGrid>
             <UniformGrid Grid.Column="1"  Grid.Row="0" Columns="3">
-                <UserInterface:UserButton Grid.Column="13" Content="Print"   CommandParameter="Print"    Click="KeyDown_Ascii"/>
-                <UserInterface:UserButton Grid.Column="13" Content="Scroll"  CommandParameter="Scroll"    Click="KeyDown_Ascii"/>
-                <UserInterface:UserButton Grid.Column="13" Content="Pause"   CommandParameter="Pause"    Click="KeyDown_Ascii"/>
+                <UserInterface:UserButton Grid.Column="13" Content="Print"   CommandParameter="0x2C"    Click="KeyDown_Ascii" Loaded="bn_Loaded"/>
+                <UserInterface:UserButton Grid.Column="13" Content="Scroll"  CommandParameter="0x91"    Click="KeyDown_Ascii" Loaded="bn_Loaded"/>
+                <UserInterface:UserButton Grid.Column="13" Content="Pause"   CommandParameter="0xB3"    Click="KeyDown_Ascii" Loaded="bn_Loaded"/>
             </UniformGrid>
 
+            <UniformGrid Grid.Column="2" Columns="3">
+                <UserInterface:UserButton Grid.Column="13" Content="LBtn"   CommandParameter="0x01"    Click="KeyDown_Ascii" Loaded="bn_Loaded"/>
+                <UserInterface:UserButton Grid.Column="13" Content="MBtn"   CommandParameter="0x04"    Click="KeyDown_Ascii" Loaded="bn_Loaded"/>
+                <UserInterface:UserButton Grid.Column="13" Content="RBtn"   CommandParameter="0x02"    Click="KeyDown_Ascii" Loaded="bn_Loaded"/>
+            </UniformGrid>
+            
             <UniformGrid Grid.Column="1"  Grid.Row="2" Columns="3" Rows="5">
-                <UserInterface:UserButton Content="Inst"                     CommandParameter="Insert"        Click="KeyDown_Ascii"/>
-                <UserInterface:UserButton Content="Home"                     CommandParameter="Home"          Click="KeyDown_Ascii"/>
-                <UserInterface:UserButton Content="Page Up"                  CommandParameter="PageUp"        Click="KeyDown_Ascii"/>
-                <UserInterface:UserButton Content="Delete"                   CommandParameter="Delete"        Click="KeyDown_Ascii"/>
-                <UserInterface:UserButton Content="End"                      CommandParameter="End"           Click="KeyDown_Ascii"/>
-                <UserInterface:UserButton Content="Page Down"                CommandParameter="PageDown"      Click="KeyDown_Ascii"/>
+                <UserInterface:UserButton Content="Inst"                     CommandParameter="0x2D"        Click="KeyDown_Ascii" Loaded="bn_Loaded"/>
+                <UserInterface:UserButton Content="Home"                     CommandParameter="0x24"          Click="KeyDown_Ascii" Loaded="bn_Loaded"/>
+                <UserInterface:UserButton Content="Page Up"                  CommandParameter="0x21"        Click="KeyDown_Ascii" Loaded="bn_Loaded"/>
+                <UserInterface:UserButton Content="Delete"                   CommandParameter="0x2E"        Click="KeyDown_Ascii" Loaded="bn_Loaded"/>
+                <UserInterface:UserButton Content="End"                      CommandParameter="0x23"           Click="KeyDown_Ascii" Loaded="bn_Loaded"/>
+                <UserInterface:UserButton Content="Page Down"                CommandParameter="0x22"      Click="KeyDown_Ascii" Loaded="bn_Loaded"/>
                 <Label/>
                 <Label/>
                 <Label/>
                 <Label/>
-                <UserInterface:UserButton Content="↑"                        CommandParameter="Up"     Click="KeyDown_Ascii"/>
+                <UserInterface:UserButton Content="↑"                        CommandParameter="0x26"     Click="KeyDown_Ascii" Loaded="bn_Loaded"/>
                 <Label/>
-                <UserInterface:UserButton Content="←"                        CommandParameter="Left"     Click="KeyDown_Ascii"/>
-                <UserInterface:UserButton Content="↓"                        CommandParameter="Down"     Click="KeyDown_Ascii"/>
-                <UserInterface:UserButton Content="→"                        CommandParameter="Right"     Click="KeyDown_Ascii"/>
+                <UserInterface:UserButton Content="←"                        CommandParameter="0x25"     Click="KeyDown_Ascii" Loaded="bn_Loaded"/>
+                <UserInterface:UserButton Content="↓"                        CommandParameter="0x28"     Click="KeyDown_Ascii" Loaded="bn_Loaded"/>
+                <UserInterface:UserButton Content="→"                        CommandParameter="0x27"     Click="KeyDown_Ascii" Loaded="bn_Loaded"/>
             </UniformGrid>
 
             <Grid Grid.Column="2" Grid.Row="2">
@@ -258,30 +270,30 @@
                     <RowDefinition Height="1*"/>
                 </Grid.RowDefinitions>
                 <UniformGrid Grid.RowSpan="3" Columns="3" Rows="4">
-                    <UserInterface:UserButton Content="NumLock"  CommandParameter="NumLock"    Click="KeyDown_Ascii"/>
-                    <UserInterface:UserButton Content="/"        CommandParameter="/"          Click="KeyDown_Ascii"/>
-                    <UserInterface:UserButton Content="*"        CommandParameter="*"          Click="KeyDown_Ascii"/>
-                    <UserInterface:UserButton Content="7"        CommandParameter="NumPad7"    Click="KeyDown_Ascii"/>
-                    <UserInterface:UserButton Content="8"        CommandParameter="NumPad8"    Click="KeyDown_Ascii"/>
-                    <UserInterface:UserButton Content="9"        CommandParameter="NumPad9"    Click="KeyDown_Ascii"/>
-                    <UserInterface:UserButton Content="4"        CommandParameter="NumPad4"    Click="KeyDown_Ascii"/>
-                    <UserInterface:UserButton Content="5"        CommandParameter="NumPad5"    Click="KeyDown_Ascii"/>
-                    <UserInterface:UserButton Content="6"        CommandParameter="NumPad6"    Click="KeyDown_Ascii"/>
-                    <UserInterface:UserButton Content="1"        CommandParameter="NumPad1"    Click="KeyDown_Ascii"/>
-                    <UserInterface:UserButton Content="2"        CommandParameter="NumPad2"    Click="KeyDown_Ascii"/>
-                    <UserInterface:UserButton Content="3"        CommandParameter="NumPad3"    Click="KeyDown_Ascii"/>
+                    <UserInterface:UserButton Content="NumLock"  CommandParameter="0x90"    Click="KeyDown_Ascii" Loaded="bn_Loaded"/>
+                    <UserInterface:UserButton Content="/"        CommandParameter="0x6F"    Click="KeyDown_Ascii" Loaded="bn_Loaded"/>
+                    <UserInterface:UserButton Content="*"        CommandParameter="0x6A"    Click="KeyDown_Ascii" Loaded="bn_Loaded"/>
+                    <UserInterface:UserButton Content="7"        CommandParameter="0x67"    Click="KeyDown_Ascii" Loaded="bn_Loaded"/>
+                    <UserInterface:UserButton Content="8"        CommandParameter="0x68"    Click="KeyDown_Ascii" Loaded="bn_Loaded"/>
+                    <UserInterface:UserButton Content="9"        CommandParameter="0x69"    Click="KeyDown_Ascii" Loaded="bn_Loaded"/>
+                    <UserInterface:UserButton Content="4"        CommandParameter="0x64"    Click="KeyDown_Ascii" Loaded="bn_Loaded"/>
+                    <UserInterface:UserButton Content="5"        CommandParameter="0x65"    Click="KeyDown_Ascii" Loaded="bn_Loaded"/>
+                    <UserInterface:UserButton Content="6"        CommandParameter="0x66"    Click="KeyDown_Ascii" Loaded="bn_Loaded"/>
+                    <UserInterface:UserButton Content="1"        CommandParameter="0x61"    Click="KeyDown_Ascii" Loaded="bn_Loaded"/>
+                    <UserInterface:UserButton Content="2"        CommandParameter="0x62"    Click="KeyDown_Ascii" Loaded="bn_Loaded"/>
+                    <UserInterface:UserButton Content="3"        CommandParameter="0x63"    Click="KeyDown_Ascii" Loaded="bn_Loaded"/>
                 </UniformGrid>
                 <Grid Grid.Row="3">
                     <Grid.ColumnDefinitions>
                         <ColumnDefinition Width="2*"/>
                         <ColumnDefinition Width="1*"/>
                     </Grid.ColumnDefinitions>
-                    <UserInterface:UserButton Grid.Column="0"                           Content="0"     CommandParameter="NumPad0"  Click="KeyDown_Ascii"/>
-                    <UserInterface:UserButton Grid.Column="1"                           Content="."     CommandParameter="."        Click="KeyDown_Ascii"/>
+                    <UserInterface:UserButton Grid.Column="0"                           Content="0"     CommandParameter="0x60"  Click="KeyDown_Ascii" Loaded="bn_Loaded"/>
+                    <UserInterface:UserButton Grid.Column="1"                           Content="."     CommandParameter="0x6E"        Click="KeyDown_Ascii" Loaded="bn_Loaded"/>
                 </Grid>
-                <UserInterface:UserButton Grid.Column="1"                               Content="-"     CommandParameter="-"        Click="KeyDown_Ascii"/>
-                <UserInterface:UserButton Grid.Column="1" Grid.Row="1" Grid.RowSpan="1" Content="+"     CommandParameter="+"        Click="KeyDown_Ascii"/>
-                <UserInterface:UserButton Grid.Column="1" Grid.Row="2" Grid.RowSpan="2" Content="Enter" CommandParameter="Enter"    Click="KeyDown_Ascii"/>
+                <UserInterface:UserButton Grid.Column="1"                               Content="-"     CommandParameter="0x6D"        Click="KeyDown_Ascii" Loaded="bn_Loaded"/>
+                <UserInterface:UserButton Grid.Column="1" Grid.Row="1" Grid.RowSpan="1" Content="+"     CommandParameter="0x6B"        Click="KeyDown_Ascii" Loaded="bn_Loaded"/>
+                <UserInterface:UserButton Grid.Column="1" Grid.Row="2" Grid.RowSpan="2" Content="Enter" CommandParameter="NumPadEnter"    Click="KeyDown_Ascii" Loaded="bn_Loaded"/>
                 
             </Grid>
         </Grid>

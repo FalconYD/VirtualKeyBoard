@@ -15,6 +15,7 @@ using System.Windows.Interop;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Shapes;
+using System.Collections;
 using UserInterface;
 
 namespace VirtualKeyboard
@@ -88,38 +89,73 @@ namespace VirtualKeyboard
         [DllImport("user32.dll")]
         static extern IntPtr CallNextHookEx(IntPtr idHook, int nCode, int wParam, IntPtr lParam);
 
+        [DllImport("user32.dll")]
+        static extern ushort GetAsyncKeyState(Int32 vKey);
+
         [DllImport("kernel32.dll")]
         static extern IntPtr LoadLibrary(string lpFileName);
 
         private delegate IntPtr LowLevelKeyboardProc(int nCode, IntPtr wParam, IntPtr lParam);
 
         const int WH_KEYBOARD_LL = 13;
+        const int WH_MOUSE_LL = 14;
         const int WM_KEYDOWN = 0x100; 
 
         private LowLevelKeyboardProc _proc = hookProc;
+        private LowLevelKeyboardProc _proc2 = hookProcM;
 
         private static IntPtr hhook = IntPtr.Zero;
+        private static IntPtr hhook2 = IntPtr.Zero;
         public void SetHook()
         {
             IntPtr hInstance = LoadLibrary("User32");
             hhook = SetWindowsHookEx(WH_KEYBOARD_LL, _proc, hInstance, 0);
+            hhook2 = SetWindowsHookEx(WH_MOUSE_LL, _proc2, hInstance, 0);
         }
 
         public static void UnHook()
         {
             UnhookWindowsHookEx(hhook);
+            UnhookWindowsHookEx(hhook2);
         }
+        public static IntPtr hookProcM(int code, IntPtr wParam, IntPtr lParam)
+        {
+            if(code >= 0)
+            {
 
+            }
+            Console.WriteLine($"{code}, {wParam}, {lParam}");
+            return CallNextHookEx(hhook, code, (int)wParam, lParam);
+        }
         public static IntPtr hookProc(int code, IntPtr wParam, IntPtr lParam)
         {
-            if (code >= 0 && wParam == (IntPtr)WM_KEYDOWN)
+            if (code >= 0)
             {
                 int vkCode = Marshal.ReadInt32(lParam);
-                
-                if (vkCode.ToString() == "162")
-                {
-                    MessageBox.Show("You pressed a CTR");
+                    Console.WriteLine($"{vkCode:X2}");
+                if (wParam == (IntPtr)WM_KEYDOWN)
+                { 
+                    try
+                    {
+                        dicBn[$"0x{vkCode:X2}"].Background = Btn_Clicked;
+                    }
+                    catch (Exception ex)
+                    {
+                        Console.WriteLine(ex.Message);
+                    }
                 }
+                else
+                {
+                    try
+                    {
+                        dicBn[$"0x{vkCode:X2}"].Background = Btn_Normal;
+                    }
+                    catch (Exception ex)
+                    {
+                        Console.WriteLine(ex.Message);
+                    }
+                }
+
                 return CallNextHookEx(hhook, code, (int)wParam, lParam);;
             }
             else
@@ -144,26 +180,28 @@ namespace VirtualKeyboard
         const byte _KeyDown = 0x00;
         const byte _KeyUp = 0x02;
 
-        SolidColorBrush Btn_Normal = new SolidColorBrush(Color.FromRgb(0xF7, 0xF7, 0xF7));
-        SolidColorBrush Btn_Clicked = new SolidColorBrush(Color.FromRgb(0x42, 0xA2, 0xE7));
+        static SolidColorBrush Btn_Normal = new SolidColorBrush(Color.FromRgb(0xF7, 0xF7, 0xF7));
+        static SolidColorBrush Btn_Clicked = new SolidColorBrush(Color.FromRgb(0x42, 0xA2, 0xE7));
 
         Queue<byte[]> queue = new Queue<byte[]>();
         Thread _thInput;
+        static Dictionary<string, UserButton> dicBn = new Dictionary<string, UserButton>();
         public Keyboard()
         {
             InitializeComponent();
-            this.Topmost = true;
-            
         }
         private void Window_Loaded(object sender, RoutedEventArgs e)
         {
+            //SetHook();
             _thInput = new Thread(new ThreadStart(fn_InputThread));
             _thInput.Start();
         }
 
         private void Window_Closed(object sender, EventArgs e)
         {
-            _thInput.Abort();
+            if(_thInput != null)
+                _thInput.Abort();
+            UnHook();
         }
 
         private void fn_InputThread()
@@ -189,165 +227,165 @@ namespace VirtualKeyboard
                 {
                     //string strValue = bn.Content as string;
                     string strValue = bn.CommandParameter as string;
-                    byte key = 0x00;
-                    keydownMode = _KeyDown;
-                    switch (strValue)
-                    {
-                        case "`":
-                            key = _keyvalue.VK_OEM_3;
-                            break;
-                        case "-":
-                            key = _keyvalue.VK_OEM_MINUS;
-                            break;
-                        case "=":
-                            key = _keyvalue.VK_OEM_PLUS;
-                            break;
-                        case "[":
-                            key = _keyvalue.VK_OEM_4;
-                            break;
-                        case "]":
-                            key = _keyvalue.VK_OEM_6;
-                            break;
-                        case "\\":
-                            key = _keyvalue.VK_OEM_5;
-                            break;
-                        case ";":
-                            key = _keyvalue.VK_OEM_1;
-                            break;
-                        case "'":
-                            key = _keyvalue.VK_OEM_7;
-                            break;
-                        case ",":
-                            key = _keyvalue.VK_OEM_COMMA;
-                            break;
-                        case ".":
-                            key = _keyvalue.VK_OEM_PERIOD;
-                            break;
-                        case "/":
-                            key = _keyvalue.VK_DIVIDE;
-                            break;
-                        case "+":
-                            key = _keyvalue.VK_ADD;
-                            break;
-                        case "*":
-                            key = _keyvalue.VK_MULTIPLY;
-                            break;
-                        case "Menu":
-                            key = _keyvalue.VK_MENU;
-                            break;
-                        case "IME":
-                             key = _keyvalue.VK_PROCESSKEY;
-                            byte[] ime = new byte[2];
-                            ime[0] = key;
-                            ime[1] = _KeyDown;
-                            queue.Enqueue(ime);
-                            keydownMode = _KeyUp;
-                            break;
-                        default:
-                            KeyConverter k = new KeyConverter();
-                            Key mykey = (Key)k.ConvertFromString(strValue);
-                            int keycode = KeyInterop.VirtualKeyFromKey(mykey);
-                            key = Convert.ToByte(keycode);
-                            if (mykey == Key.LeftCtrl || mykey == Key.RightCtrl)
-                            {
-                                if (bCtrl)
-                                {
-                                    bn.Background = Btn_Normal;
-                                    keydownMode = _KeyUp;
-                                }
-                                else
-                                {
-                                    bn.Background = Btn_Clicked;
-                                    //keydownMode = _KeyDown;
-                                }
-                                bCtrl = !bCtrl;
-                            }
-                            if (mykey == Key.LeftShift || mykey == Key.RightShift)
-                            {
-                                if (bShift)
-                                {
-                                    bn.Background = Btn_Normal;
-                                    keydownMode = _KeyUp;
-                                }
-                                else
-                                {
-                                    bn.Background = Btn_Clicked;
-                                    //keydownMode = _KeyDown;
-                                }
-                                bShift = !bShift;
-                            }
-                            if (mykey == Key.LeftAlt || mykey == Key.RightAlt)
-                            {
-                                if (bAlt)
-                                {
-                                    bn.Background = Btn_Normal;
-                                    keydownMode = _KeyUp;
-                                }
-                                else
-                                {
-                                    bn.Background = Btn_Clicked;
-                                    //keydownMode = _KeyDown;
-                                }
-                                bAlt = !bAlt;
-                            }
-                            if (mykey == Key.LWin || mykey == Key.RWin)
-                            {
-                                byte[] ime1 = new byte[2];
-                                ime1[0] = key;
-                                ime1[1] = _KeyDown;
-                                queue.Enqueue(ime1);
-                                keydownMode = _KeyUp;
-                            }
-                            if(mykey == Key.CapsLock)
-                            {
-                                if(bCaps)
-                                {
-                                    bn.Background = Btn_Normal;
-                                    keydownMode = _KeyUp;
-                                }
-                                else
-                                {
-                                    bn.Background = Btn_Clicked;
-                                    //keydownMode = _KeyDown;
-                                }
-
-                                bCaps = !bCaps;
-                            }
-
-                            if (mykey == Key.NumLock)
-                            {
-                                if (bNumlock)
-                                {
-                                    bn.Background = Btn_Normal;
-                                    keydownMode = _KeyUp;
-                                }
-                                else
-                                {
-                                    bn.Background = Btn_Clicked;
-                                    //keydownMode = _KeyDown;
-                                }
-
-                                bNumlock = !bNumlock;
-                            }
-
-                            if (mykey == Key.Scroll)
-                            {
-                                if (bScrollLock)
-                                {
-                                    bn.Background = Btn_Normal;
-                                    keydownMode = _KeyUp;
-                                }
-                                else
-                                {
-                                    bn.Background = Btn_Clicked;
-                                    //keydownMode = _KeyDown;
-                                }
-
-                                bScrollLock = !bScrollLock;
-                            }
-                            break;
-                    }
+                    byte key = Convert.ToByte(strValue.Substring(2,2), 16);
                     
+                    keydownMode = _KeyDown;
+                    //switch (strValue)
+                    //{
+                    //    case "`":
+                    //        key = _keyvalue.VK_OEM_3;
+                    //        break;
+                    //    case "-":
+                    //        key = _keyvalue.VK_OEM_MINUS;
+                    //        break;
+                    //    case "=":
+                    //        key = _keyvalue.VK_OEM_PLUS;
+                    //        break;
+                    //    case "[":
+                    //        key = _keyvalue.VK_OEM_4;
+                    //        break;
+                    //    case "]":
+                    //        key = _keyvalue.VK_OEM_6;
+                    //        break;
+                    //    case "\\":
+                    //        key = _keyvalue.VK_OEM_5;
+                    //        break;
+                    //    case ";":
+                    //        key = _keyvalue.VK_OEM_1;
+                    //        break;
+                    //    case "'":
+                    //        key = _keyvalue.VK_OEM_7;
+                    //        break;
+                    //    case ",":
+                    //        key = _keyvalue.VK_OEM_COMMA;
+                    //        break;
+                    //    case ".":
+                    //        key = _keyvalue.VK_OEM_PERIOD;
+                    //        break;
+                    //    case "/":
+                    //        key = _keyvalue.VK_DIVIDE;
+                    //        break;
+                    //    case "+":
+                    //        key = _keyvalue.VK_ADD;
+                    //        break;
+                    //    case "*":
+                    //        key = _keyvalue.VK_MULTIPLY;
+                    //        break;
+                    //    case "Menu":
+                    //        key = _keyvalue.VK_MENU;
+                    //        break;
+                    //    case "IME":
+                    //         key = _keyvalue.VK_PROCESSKEY;
+                    //        byte[] ime = new byte[2];
+                    //        ime[0] = key;
+                    //        ime[1] = _KeyDown;
+                    //        queue.Enqueue(ime);
+                    //        keydownMode = _KeyUp;
+                    //        break;
+                    //    default:
+                    //        KeyConverter k = new KeyConverter();
+                    //        Key mykey = (Key)k.ConvertFromString(strValue);
+                    //        int keycode = KeyInterop.VirtualKeyFromKey(mykey);
+                    //        key = Convert.ToByte(keycode);
+                    //        if (mykey == Key.LeftCtrl || mykey == Key.RightCtrl)
+                    //        {
+                    //            if (bCtrl)
+                    //            {
+                    //                bn.Background = Btn_Normal;
+                    //                keydownMode = _KeyUp;
+                    //            }
+                    //            else
+                    //            {
+                    //                bn.Background = Btn_Clicked;
+                    //                //keydownMode = _KeyDown;
+                    //            }
+                    //            bCtrl = !bCtrl;
+                    //        }
+                    //        if (mykey == Key.LeftShift || mykey == Key.RightShift)
+                    //        {
+                    //            if (bShift)
+                    //            {
+                    //                bn.Background = Btn_Normal;
+                    //                keydownMode = _KeyUp;
+                    //            }
+                    //            else
+                    //            {
+                    //                bn.Background = Btn_Clicked;
+                    //                //keydownMode = _KeyDown;
+                    //            }
+                    //            bShift = !bShift;
+                    //        }
+                    //        if (mykey == Key.LeftAlt || mykey == Key.RightAlt)
+                    //        {
+                    //            if (bAlt)
+                    //            {
+                    //                bn.Background = Btn_Normal;
+                    //                keydownMode = _KeyUp;
+                    //            }
+                    //            else
+                    //            {
+                    //                bn.Background = Btn_Clicked;
+                    //                //keydownMode = _KeyDown;
+                    //            }
+                    //            bAlt = !bAlt;
+                    //        }
+                    //        if (mykey == Key.LWin || mykey == Key.RWin)
+                    //        {
+                    //            byte[] ime1 = new byte[2];
+                    //            ime1[0] = key;
+                    //            ime1[1] = _KeyDown;
+                    //            queue.Enqueue(ime1);
+                    //            keydownMode = _KeyUp;
+                    //        }
+                    //        if(mykey == Key.CapsLock)
+                    //        {
+                    //            if(bCaps)
+                    //            {
+                    //                bn.Background = Btn_Normal;
+                    //                keydownMode = _KeyUp;
+                    //            }
+                    //            else
+                    //            {
+                    //                bn.Background = Btn_Clicked;
+                    //                //keydownMode = _KeyDown;
+                    //            }
+                    //
+                    //            bCaps = !bCaps;
+                    //        }
+                    //
+                    //        if (mykey == Key.NumLock)
+                    //        {
+                    //            if (bNumlock)
+                    //            {
+                    //                bn.Background = Btn_Normal;
+                    //                keydownMode = _KeyUp;
+                    //            }
+                    //            else
+                    //            {
+                    //                bn.Background = Btn_Clicked;
+                    //                //keydownMode = _KeyDown;
+                    //            }
+                    //
+                    //            bNumlock = !bNumlock;
+                    //        }
+                    //
+                    //        if (mykey == Key.Scroll)
+                    //        {
+                    //            if (bScrollLock)
+                    //            {
+                    //                bn.Background = Btn_Normal;
+                    //                keydownMode = _KeyUp;
+                    //            }
+                    //            else
+                    //            {
+                    //                bn.Background = Btn_Clicked;
+                    //                //keydownMode = _KeyDown;
+                    //            }
+                    //
+                    //            bScrollLock = !bScrollLock;
+                    //        }
+                    //        break;
+                    //}
                     data[0] = key;
                     data[1] = keydownMode;
                     queue.Enqueue(data);
@@ -405,6 +443,32 @@ namespace VirtualKeyboard
         {
             //this.Close();
             this.Hide();
+        }
+
+        private void bn_Loaded(object sender, RoutedEventArgs e)
+        {
+            UserButton bn = sender as UserButton;
+            if (bn != null)
+            {
+                dicBn.Add(bn.CommandParameter as string, bn);
+            }
+        }
+
+        private void cb_Topmost_Click(object sender, RoutedEventArgs e)
+        {
+            this.Topmost = cb_Topmost.IsChecked == true? true : false;
+        }
+
+        private void cb_Hooking_Click(object sender, RoutedEventArgs e)
+        {
+            CheckBox cb = sender as CheckBox;
+            if (cb != null)
+            {
+                if (cb.IsChecked == true)
+                    SetHook();
+                else
+                    UnHook();
+            }
         }
 
         private static IntPtr WndProc(IntPtr hwnd, int msg, IntPtr wParam, IntPtr lParam, ref bool handled)
